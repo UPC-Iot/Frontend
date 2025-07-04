@@ -139,7 +139,7 @@ fun LoginScreen(padding: PaddingValues) {
                 )
             }
 
-            // Full Name Field - EDITABLE
+            // Password
             Column {
                 Text(
                     text = "Contraseña",
