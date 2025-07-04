@@ -1,4 +1,4 @@
-package com.example.profileedit
+package com.example.protectify.profile
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -31,7 +31,7 @@ import com.example.protectify.R
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditProfileScreen(onBackClick: () -> Unit = {}, modifier: Modifier = Modifier) {
+fun EditProfileScreen(onBackClick: () -> Unit = {}, padding: PaddingValues) {
     val darkBackground = Color(0xFF26272C)
     val orangeButton = Color(0xFFBF4D36)
     val grayText = Color(0xFF8E8E93)
@@ -46,7 +46,7 @@ fun EditProfileScreen(onBackClick: () -> Unit = {}, modifier: Modifier = Modifie
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.dp)
+                    .padding(padding)
             ) {
                 Spacer(modifier = Modifier.height(110.dp))
                 IconButton(
@@ -156,7 +156,7 @@ fun EditProfileScreen(onBackClick: () -> Unit = {}, modifier: Modifier = Modifie
                     )
                 }
 
-                // Email Field - EDITABLE
+
                 Column {
                     Text(
                         text = "Correo",
@@ -247,7 +247,7 @@ fun EditProfileScreen(onBackClick: () -> Unit = {}, modifier: Modifier = Modifie
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(18.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = orangeButton)
             ) {
                 Text(

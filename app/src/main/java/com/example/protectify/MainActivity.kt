@@ -11,7 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.profileedit.EditProfileScreen
+import com.example.protectify.auth.login.LoginScreen
+import com.example.protectify.profile.EditProfileScreen
 import com.example.protectify.ui.theme.ProtectifyTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProtectifyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    EditProfileScreen(modifier = Modifier.padding(innerPadding))
+                    LoginScreen(padding = innerPadding)
                 }
             }
         }
