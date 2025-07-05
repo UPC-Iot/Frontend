@@ -11,9 +11,9 @@ class OwnerRepository(
     private val ownerService: OwnerService
 ) {
 
-    suspend fun getOwner(userId: Long, token: String): Resource<Owner> = withContext(Dispatchers.IO) {
+    suspend fun getOwnerById(id: Long, token: String): Resource<Owner> = withContext(Dispatchers.IO) {
         if (token.isBlank()) return@withContext Resource.Error("Un token es requerido")
-        val response = ownerService.getOwner(userId, "Bearer $token")
+        val response = ownerService.getOwnerById(id, "Bearer $token")
         if (response.isSuccessful) {
             response.body()?.let { dto -> return@withContext Resource.Success(dto.toOwner()) }
             return@withContext Resource.Error("No se encontró el propietario")
@@ -21,9 +21,9 @@ class OwnerRepository(
         Resource.Error(response.message())
     }
 
-    suspend fun getOwnerById(id: Long, token: String): Resource<Owner> = withContext(Dispatchers.IO) {
+    suspend fun getOwnerByUserId(userId: Long, token: String): Resource<Owner> = withContext(Dispatchers.IO) {
         if (token.isBlank()) return@withContext Resource.Error("Un token es requerido")
-        val response = ownerService.getOwnerById(id, "Bearer $token")
+        val response = ownerService.getOwnerByUserId(userId, "Bearer $token")
         if (response.isSuccessful) {
             response.body()?.let { dto -> return@withContext Resource.Success(dto.toOwner()) }
             return@withContext Resource.Error("No se encontró el propietario")

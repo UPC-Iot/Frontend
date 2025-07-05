@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface OwnerService {
     @GET("owners/{userId}/user")
-    suspend fun getOwner(@Path("userId") userId: Long, @Header("Authorization") token: String): Response<OwnerDto>
+    suspend fun getOwnerByUserId(@Path("userId") userId: Long, @Header("Authorization") token: String): Response<OwnerDto>
     @GET("owners/{id}")
     suspend fun getOwnerById(@Path("id") id: Long, @Header("Authorization") token: String): Response<OwnerDto>
 }
