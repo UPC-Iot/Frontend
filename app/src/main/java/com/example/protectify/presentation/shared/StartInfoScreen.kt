@@ -1,4 +1,4 @@
-package com.example.protectify.shared
+package com.example.protectify.presentation.shared
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

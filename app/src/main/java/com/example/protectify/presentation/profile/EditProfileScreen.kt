@@ -1,4 +1,4 @@
-package com.example.protectify.profile
+package com.example.protectify.presentation.profile
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

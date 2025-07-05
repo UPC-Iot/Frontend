@@ -1,4 +1,4 @@
-package com.example.protectify.auth.login
+package com.example.protectify.presentation.auth.register
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,10 +19,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -46,10 +46,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun LoginScreen(padding: PaddingValues) {
-
+fun RegisterScreen(padding: PaddingValues){
 
     var email by remember { mutableStateOf("") }
+    var fullName by remember { mutableStateOf("")}
+    var phoneNumber by remember { mutableStateOf("")}
     var password by remember { mutableStateOf("") }
 
     val grayText = Color(0xFF8E8E93)
@@ -64,7 +65,7 @@ fun LoginScreen(padding: PaddingValues) {
             .padding(padding)
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.Start
-    ) {
+    ){
         Box(
             modifier = Modifier
                 .padding(bottom = 48.dp, top = 12.dp)
@@ -79,7 +80,7 @@ fun LoginScreen(padding: PaddingValues) {
             )
         }
         Text(
-            text = "Iniciar Sesión",
+            text = "Registrarse",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
@@ -87,11 +88,110 @@ fun LoginScreen(padding: PaddingValues) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // Form Fields
+
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
+            Column {
+                Text(
+                    text = "Nombre completo",
+                    color = grayText,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(start = 4.dp, bottom = 8.dp)
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AccountCircle,
+                        contentDescription = null,
+                        tint = grayText,
+                        modifier = Modifier.size(24.dp)
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    BasicTextField(
+                        value = fullName,
+                        onValueChange = { fullName = it },
+                        textStyle = LocalTextStyle.current.copy(
+                            color = Color.White,
+                            fontSize = 16.sp
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                        modifier = Modifier.fillMaxWidth(),
+                        decorationBox = { innerTextField ->
+                            if (fullName.isEmpty()) {
+                                Text("Ingresa tu nombre completo", color = Color.Gray)
+                            }
+                            innerTextField()
+                        }
+                    )
+
+                }
+
+                Divider(
+                    color = Color.DarkGray,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
+            Column {
+                Text(
+                    text = "Teléfono",
+                    color = grayText,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(start = 4.dp, bottom = 8.dp)
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Phone,
+                        contentDescription = null,
+                        tint = grayText,
+                        modifier = Modifier.size(24.dp)
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    BasicTextField(
+                        value = phoneNumber, // Usa otro nombre como phone si quieres más claro
+                        onValueChange = {
+                            // Aceptar solo números y limitar a 9 dígitos
+                            if (it.length <= 9 && it.all { char -> char.isDigit() }) {
+                                phoneNumber = it
+                            }
+                        },
+                        textStyle = LocalTextStyle.current.copy(
+                            color = Color.White,
+                            fontSize = 16.sp
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier.fillMaxWidth(),
+                        decorationBox = { innerTextField ->
+                            Box {
+                                if (phoneNumber.isEmpty()) {
+                                    Text("Introduce tu teléfono Ej. 912345678", color = Color.Gray)
+                                }
+                                innerTextField()
+                            }
+                        }
+                    )
+                }
+
+                Divider(
+                    color = Color.DarkGray,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
+
             Column {
                 Text(
                     text = "Correo",
@@ -139,7 +239,6 @@ fun LoginScreen(padding: PaddingValues) {
                 )
             }
 
-            // Password
             Column {
                 Text(
                     text = "Contraseña",
@@ -188,47 +287,45 @@ fun LoginScreen(padding: PaddingValues) {
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
+            Spacer(modifier = Modifier.height(28.dp))
 
+            Button(
+                onClick = { /* Save profile logic */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(18.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = orangeButton)
+            ) {
+                Text(
+                    text = "Sign In",
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "¿Ya tienes cuenta? ",
+                    color = grayText
+                )
+                Text(
+                    text = "Iniciar sesión",
+                    color = Color(0xFF0859d5),
+                    modifier = Modifier.clickable {
+                        // Acción al hacer clic: navegar a la pantalla de  o mostrar un mensaje
+                    }
+                )
+            }
 
         }
 
-        Spacer(modifier = Modifier.height(48.dp))
 
-        Button(
-            onClick = { /* Save profile logic */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = RoundedCornerShape(18.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = orangeButton)
-        ) {
-            Text(
-                text = "Sign In",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "¿No tienes cuenta? ",
-                color = grayText
-            )
-            Text(
-                text = "Regístrate",
-                color = Color(0xFF0859d5),
-                modifier = Modifier.clickable {
-                    // Acción al hacer clic: navegar a la pantalla de registro o mostrar un mensaje
-                    // navController.navigate("register")
-                }
-            )
-        }
 
     }
 }
