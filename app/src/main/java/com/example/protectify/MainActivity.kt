@@ -11,6 +11,7 @@ import androidx.room.Room
 import com.example.protectify.common.Constants
 import com.example.protectify.data.local.AppDatabase
 import com.example.protectify.data.remote.alert.AlertService
+import com.example.protectify.data.remote.authentication.AuthenticationService
 import com.example.protectify.data.remote.device.DeviceService
 import com.example.protectify.data.remote.house.HouseService
 import com.example.protectify.data.remote.notification.NotificationService
@@ -18,6 +19,7 @@ import com.example.protectify.data.remote.owner.OwnerService
 import com.example.protectify.data.remote.profile.ProfileService
 import com.example.protectify.data.remote.visitor.VisitorService
 import com.example.protectify.data.repository.alert.AlertRepository
+import com.example.protectify.data.repository.authentication.AuthenticationRepository
 import com.example.protectify.data.repository.device.DeviceRepository
 import com.example.protectify.data.repository.house.HouseRepository
 import com.example.protectify.data.repository.notification.NotificationRepository
@@ -41,10 +43,10 @@ class MainActivity : ComponentActivity() {
             .build()
 
         // Room (si tienes base de datos local)
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "protectify-db"
-        ).build()
+        val userDao = Room
+            .databaseBuilder(applicationContext, AppDatabase::class.java, "protectify-db")
+            .build()
+            .getUserDao()
 
         // Services
         val alertService = retrofit.create(AlertService::class.java)
@@ -54,6 +56,7 @@ class MainActivity : ComponentActivity() {
         val ownerService = retrofit.create(OwnerService::class.java)
         val profileService = retrofit.create(ProfileService::class.java)
         val visitorService = retrofit.create(VisitorService::class.java)
+        val authenticationService = retrofit.create(AuthenticationService::class.java)
 
         // Repositories
         val alertRepository = AlertRepository(alertService)
@@ -63,6 +66,7 @@ class MainActivity : ComponentActivity() {
         val ownerRepository = OwnerRepository(ownerService)
         val profileRepository = ProfileRepository(profileService)
         val visitorRepository = VisitorRepository(visitorService)
+        val authenticationRepository = AuthenticationRepository(authenticationService, userDao)
 
         setContent {
             ProtectifyTheme {
