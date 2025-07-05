@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.protectify.auth.login.LoginScreen
+import com.example.protectify.auth.register.RegisterScreen
 import com.example.protectify.profile.EditProfileScreen
 import com.example.protectify.shared.StartInfoScreen
 import com.example.protectify.ui.theme.ProtectifyTheme
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProtectifyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    StartInfoScreen(padding = innerPadding)
+                    RegisterScreen(padding = innerPadding)
                 }
             }
         }
