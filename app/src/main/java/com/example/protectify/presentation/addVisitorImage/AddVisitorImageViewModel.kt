@@ -46,7 +46,8 @@ class AddVisitorImageViewModel(
                         when (result) {
                             is Resource.Success -> {
                                 _state.value = UIState(data = result.data)
-                                photoUrl.value = result.data?.photo ?: ""
+                                photoUrl.value = "" // Limpia la foto después de crear el visitante
+                                addVisitorViewModel.clearFields()
                                 goToVisitorsListScreen()
                             }
                             is Resource.Error -> {

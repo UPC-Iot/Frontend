@@ -56,6 +56,12 @@ class AddVisitorViewModel(
         }
     }
 
+    fun clearFields() {
+        firstname.value = ""
+        lastname.value = ""
+        role.value = ""
+    }
+
     fun goToAddVisitorImageScreen() {
         navController.navigate("add-visitor-image")
     }
