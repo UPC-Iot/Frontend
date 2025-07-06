@@ -28,6 +28,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,9 +46,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.protectify.common.Screen
 
 @Composable
-fun LoginScreen(padding: PaddingValues) {
+fun LoginScreen(padding: PaddingValues, navController: NavController) {
 
 
     var email by remember { mutableStateOf("") }
@@ -65,6 +69,7 @@ fun LoginScreen(padding: PaddingValues) {
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.Start
     ) {
+        Spacer(modifier = Modifier.height(50.dp))
         Box(
             modifier = Modifier
                 .padding(bottom = 48.dp, top = 12.dp)
@@ -72,11 +77,20 @@ fun LoginScreen(padding: PaddingValues) {
                 .background(color = Color.Black, shape = CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
+            IconButton(
+                onClick = { navController.popBackStack()},
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color.Black)
+            ){
+                Icon(
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = "Volver",
                 tint = Color.White
-            )
+            )}
+
         }
         Text(
             text = "Iniciar Sesión",
@@ -224,8 +238,7 @@ fun LoginScreen(padding: PaddingValues) {
                 text = "Regístrate",
                 color = Color(0xFF0859d5),
                 modifier = Modifier.clickable {
-                    // Acción al hacer clic: navegar a la pantalla de registro o mostrar un mensaje
-                    // navController.navigate("register")
+                    navController.navigate(Screen.Register.route)
                 }
             )
         }

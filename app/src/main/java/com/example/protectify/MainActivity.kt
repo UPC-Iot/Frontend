@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.room.Room
+import com.example.protectify.common.AppNavigation
 import com.example.protectify.common.Constants
 import com.example.protectify.data.local.AppDatabase
 import com.example.protectify.data.remote.alert.AlertService
@@ -71,7 +72,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProtectifyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RegisterScreen(padding = innerPadding)
+                    AppNavigation(padding =innerPadding)
                 }
             }
         }

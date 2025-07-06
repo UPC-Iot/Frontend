@@ -24,10 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.protectify.R
+import com.example.protectify.common.Screen
 
 @Composable
-fun StartInfoScreen(padding: PaddingValues){
+fun StartInfoScreen(padding: PaddingValues, navController: NavController){
     val darkBackground = Color(0xFF26272C)
     val orangeButton = Color(0xFFBF4D36)
     val grayText = Color(0xFF8E8E93)
@@ -40,7 +42,7 @@ fun StartInfoScreen(padding: PaddingValues){
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
+        Spacer(modifier = Modifier.height(32.dp))
         Image(
             painter = painterResource(id= R.drawable.face_recon),
             contentDescription = "Info Image",
@@ -74,7 +76,7 @@ fun StartInfoScreen(padding: PaddingValues){
         Spacer(modifier = Modifier.height(72.dp))
 
         Button(
-            onClick = { /* Save profile logic */ },
+            onClick = { navController.navigate(Screen.Login.route)},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
