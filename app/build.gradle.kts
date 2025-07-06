@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation("androidx.compose.ui:ui-text-google-fonts:1.6.1")
     implementation(libs.retrofit)
+
     implementation(libs.converter.gson)
     implementation(libs.threetenabp)
     implementation(libs.room.runtime)
@@ -79,4 +80,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("com.github.skydoves:landscapist-glide:2.3.8")
 }
