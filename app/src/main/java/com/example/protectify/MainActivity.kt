@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.room.Room
@@ -27,6 +28,8 @@ import com.example.protectify.data.repository.owner.OwnerRepository
 import com.example.protectify.data.repository.profile.ProfileRepository
 import com.example.protectify.data.repository.visitor.VisitorRepository
 import com.example.protectify.presentation.auth.register.RegisterScreen
+import com.example.protectify.presentation.home.HomeScreen
+import com.example.protectify.presentation.home.HomeViewModel
 import com.example.protectify.ui.theme.ProtectifyTheme
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -58,20 +61,35 @@ class MainActivity : ComponentActivity() {
         val visitorService = retrofit.create(VisitorService::class.java)
         val authenticationService = retrofit.create(AuthenticationService::class.java)
 
-        // Repositories
-        val alertRepository = AlertRepository(alertService)
-        val deviceRepository = DeviceRepository(deviceService)
-        val houseRepository = HouseRepository(houseService)
-        val notificationRepository = NotificationRepository(notificationService)
-        val ownerRepository = OwnerRepository(ownerService)
-        val profileRepository = ProfileRepository(profileService)
-        val visitorRepository = VisitorRepository(visitorService)
-        val authenticationRepository = AuthenticationRepository(authenticationService, userDao)
-
         setContent {
             ProtectifyTheme {
+
+                // Repositories
+                val alertRepository = AlertRepository(alertService)
+                val deviceRepository = DeviceRepository(deviceService)
+                val houseRepository = HouseRepository(houseService)
+                val notificationRepository = NotificationRepository(notificationService)
+                val ownerRepository = OwnerRepository(ownerService)
+                val profileRepository = ProfileRepository(profileService)
+                val visitorRepository = VisitorRepository(visitorService)
+                val authenticationRepository = AuthenticationRepository(authenticationService, userDao)
+
+                // ViewModel
+
+                val homeViewModel = HomeViewModel(
+                    ownerRepository = ownerRepository,
+                    profileRepository = profileRepository,
+                    visitorRepository = visitorRepository,
+                    notificationRepository = notificationRepository,
+                    deviceRepository = deviceRepository
+                )
+
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RegisterScreen(padding = innerPadding)
+                    HomeScreen(
+                        viewModel = homeViewModel,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }

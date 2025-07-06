@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.threetenabp)
     implementation(libs.room.runtime)
+    implementation(libs.glide)
     annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)

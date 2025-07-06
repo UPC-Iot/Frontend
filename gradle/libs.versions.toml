@@ -14,6 +14,7 @@ firebaseCommonKtx = "21.0.0"
 firebaseStorageKtx = "21.0.2"
 ksp = "2.0.0-1.0.21"
 room = "2.6.1"
+glide = "2.3.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +39,7 @@ firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

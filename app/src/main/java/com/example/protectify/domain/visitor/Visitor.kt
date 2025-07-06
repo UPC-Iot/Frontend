@@ -10,5 +10,5 @@ data class Visitor(
     val lastname: String,
     val photo: String,
     val role: String,
-    val lastVisit: LocalDate?,
+    val lastVisit: String?,
 )
