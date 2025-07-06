@@ -173,7 +173,7 @@ fun HomeScreen(
             VisitorsSection(
                 visitors = visitorsState.data ?: emptyList(),
                 isLoading = visitorsState.isLoading,
-                onAddVisitorClick = { /* Acción para agregar visitante */ },
+                onAddVisitorClick = { viewModel.goToAddVisitorScreen() },
                 onVisitorClick = { visitorId -> /* Acción al hacer click en visitante */ }
             )
 

@@ -15,20 +15,20 @@ import com.example.protectify.presentation.shared.StartInfoScreen
 fun AppNavigation(navController: NavHostController = rememberNavController(), padding: PaddingValues) {
     NavHost(
         navController = navController,
-        startDestination = Screen.SplashScreen.route
+        startDestination = Routes.SplashScreen.route
     ) {
-        composable(route = Screen.SplashScreen.route) {
-            SplashScreen(padding){navController.navigate(Screen.StartInfo.route){
-                popUpTo(Screen.SplashScreen.route) { inclusive = true }
+        composable(route = Routes.SplashScreen.route) {
+            SplashScreen(padding){navController.navigate(Routes.StartInfo.route){
+                popUpTo(Routes.SplashScreen.route) { inclusive = true }
             } }
         }
-        composable(route = Screen.StartInfo.route) {
+        composable(route = Routes.StartInfo.route) {
             StartInfoScreen(padding,navController)
         }
-        composable(route = Screen.Login.route) {
+        composable(route = Routes.Login.route) {
             LoginScreen(padding,navController)
         }
-        composable(route = Screen.Register.route) {
+        composable(route = Routes.Register.route) {
             RegisterScreen(padding,navController)
         }
 

@@ -47,7 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.protectify.common.Screen
+import com.example.protectify.common.Routes
 
 @Composable
 fun RegisterScreen(padding: PaddingValues, navController: NavController){
@@ -332,8 +332,8 @@ fun RegisterScreen(padding: PaddingValues, navController: NavController){
                     text = "Iniciar sesión",
                     color = Color(0xFF0859d5),
                     modifier = Modifier.clickable {
-                        navController.navigate(Screen.Login.route){
-                            popUpTo(Screen.Register.route) {
+                        navController.navigate(Routes.Login.route){
+                            popUpTo(Routes.Register.route) {
                                 inclusive = true
                             }
                             launchSingleTop = true

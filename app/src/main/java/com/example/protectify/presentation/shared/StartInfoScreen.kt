@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.protectify.R
-import com.example.protectify.common.Screen
+import com.example.protectify.common.Routes
 
 @Composable
 fun StartInfoScreen(padding: PaddingValues, navController: NavController){
@@ -76,7 +76,7 @@ fun StartInfoScreen(padding: PaddingValues, navController: NavController){
         Spacer(modifier = Modifier.height(72.dp))
 
         Button(
-            onClick = { navController.navigate(Screen.Login.route)},
+            onClick = { navController.navigate(Routes.Login.route)},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),

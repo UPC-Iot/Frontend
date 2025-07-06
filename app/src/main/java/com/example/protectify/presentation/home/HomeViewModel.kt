@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.example.protectify.common.GlobalVariables
 import com.example.protectify.common.Resource
 import com.example.protectify.common.UIState
@@ -19,6 +20,7 @@ import com.example.protectify.domain.visitor.Visitor
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
+    private val navController: NavController,
     private val ownerRepository: OwnerRepository,
     private val profileRepository: ProfileRepository,
     private val visitorRepository: VisitorRepository,
@@ -77,6 +79,10 @@ class HomeViewModel(
                 _profileState.value = UIState(message = result.message ?: "Error al obtener el perfil")
             }
         }
+    }
+
+    fun goToAddVisitorScreen() {
+        navController.navigate("add-visitor")
     }
 
     fun getCameras() {

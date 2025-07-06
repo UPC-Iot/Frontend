@@ -47,7 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.protectify.common.Screen
+import com.example.protectify.common.Routes
 
 @Composable
 fun LoginScreen(padding: PaddingValues, navController: NavController) {
@@ -238,7 +238,7 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
                 text = "Regístrate",
                 color = Color(0xFF0859d5),
                 modifier = Modifier.clickable {
-                    navController.navigate(Screen.Register.route)
+                    navController.navigate(Routes.Register.route)
                 }
             )
         }
