@@ -7,10 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.protectify.common.AppNavigation
 import com.example.protectify.common.Constants
+import com.example.protectify.common.Routes
 import com.example.protectify.data.local.AppDatabase
 import com.example.protectify.data.remote.*
 import com.example.protectify.data.remote.alert.AlertService
@@ -39,9 +41,13 @@ import com.example.protectify.presentation.auth.register.RegisterViewModel
 import com.example.protectify.presentation.createHouse.CreateHouseViewModel
 import com.example.protectify.presentation.createProfile.CreateProfileViewModel
 import com.example.protectify.presentation.home.HomeViewModel
+import com.example.protectify.presentation.notificationList.NotificationViewModel
+import com.example.protectify.presentation.shared.BottomNavigationBar
 import com.example.protectify.presentation.visitorsList.VisitorsListViewModel
 import com.example.protectify.ui.theme.ProtectifyTheme
-import com.jakewharton.threetenabp.AndroidThreeTen
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
+import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -50,11 +56,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val gson = GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS") // Formato sin zona horaria
+            .create()
+
         // Inicialización de dependencias (igual que antes)
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
+
+
 
 
         val userDao = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "protectify-db").build().getUserDao()
@@ -80,7 +92,7 @@ class MainActivity : ComponentActivity() {
                 val authenticationRepository = AuthenticationRepository(authenticationService, userDao)
                 val cloudStorageRepository = CloudStorageRepository()
 
-                val homeViewModel = HomeViewModel(navController, ownerRepository, profileRepository, visitorRepository, notificationRepository, deviceRepository,authenticationRepository)
+                val homeViewModel = HomeViewModel(navController, ownerRepository, profileRepository, visitorRepository, notificationRepository, deviceRepository,authenticationRepository,alertRepository)
                 val visitorsListViewModel = VisitorsListViewModel(navController, ownerRepository, visitorRepository)
                 val addVisitorViewModel = AddVisitorViewModel(navController, ownerRepository, houseRepository)
                 val addVisitorImageViewModel = AddVisitorImageViewModel(navController, visitorRepository, addVisitorViewModel, cloudStorageRepository)
@@ -97,11 +109,25 @@ class MainActivity : ComponentActivity() {
                     houseRepository,
                     ownerRepository,
                 )
+                val notificationViewModel = NotificationViewModel(
+                    navController,
+                    notificationRepository
+                )
 
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry?.destination?.route
+
+                Scaffold(
+                    containerColor = Color(0xFF26272C),
+                    bottomBar = {
+                        if (currentRoute == Routes.Home.route || currentRoute == Routes.VisitorsList.route) {
+                            BottomNavigationBar(navController = navController)
+                        }
+                    }
+                ) { padding ->
                     AppNavigation(
                         navController = navController,
-                        padding = innerPadding,
+                        padding = padding,
                         homeViewModel = homeViewModel,
                         visitorsListViewModel = visitorsListViewModel,
                         addVisitorViewModel = addVisitorViewModel,
@@ -110,6 +136,7 @@ class MainActivity : ComponentActivity() {
                         registerViewModel = registerViewModel,
                         createProfileViewModel = createProfileViewModel,
                         createHouseViewModel = createHouseViewModel,
+                        notificationViewModel = notificationViewModel
                     )
                 }
             }

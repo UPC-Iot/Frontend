@@ -10,12 +10,14 @@ import com.example.protectify.common.GlobalVariables
 import com.example.protectify.common.Resource
 import com.example.protectify.common.Routes
 import com.example.protectify.common.UIState
+import com.example.protectify.data.repository.alert.AlertRepository
 import com.example.protectify.data.repository.authentication.AuthenticationRepository
 import com.example.protectify.data.repository.device.DeviceRepository
 import com.example.protectify.data.repository.notification.NotificationRepository
 import com.example.protectify.data.repository.owner.OwnerRepository
 import com.example.protectify.data.repository.profile.ProfileRepository
 import com.example.protectify.data.repository.visitor.VisitorRepository
+import com.example.protectify.domain.alert.Alert
 import com.example.protectify.domain.authentication.AuthenticationResponse
 import com.example.protectify.domain.device.Device
 import com.example.protectify.domain.profile.Profile
@@ -29,7 +31,8 @@ class HomeViewModel(
     private val visitorRepository: VisitorRepository,
     private val notificationRepository: NotificationRepository,
     private val deviceRepository: DeviceRepository,
-    private val authenticationRepository: AuthenticationRepository
+    private val authenticationRepository: AuthenticationRepository,
+    private val alertRepository: AlertRepository
 ): ViewModel() {
 
     private val _state = mutableStateOf(UIState<List<Visitor>>())
@@ -43,6 +46,9 @@ class HomeViewModel(
 
     private val _cameraState = mutableStateOf(UIState<List<Device>>())
     val camerasState: State<UIState<List<Device>>> get() = _cameraState
+
+    private val _alertState = mutableStateOf(UIState<List<Alert>>())
+    val alertState: State<UIState<List<Alert>>> get() = _alertState
 
     fun getVisitors() {
         _state.value = UIState(isLoading = true)
@@ -83,6 +89,36 @@ class HomeViewModel(
                 _profileState.value = UIState(message = result.message ?: "Error al obtener el perfil")
             }
         }
+    }
+
+    fun getAlerts() {
+        _alertState.value = UIState(isLoading = true)
+        viewModelScope.launch {
+            val token = GlobalVariables.TOKEN
+            val ownerResult = ownerRepository.getOwnerByUserId(GlobalVariables.USER_ID, token)
+            when (ownerResult) {
+                is Resource.Success -> {
+                    val ownerId = ownerResult.data?.id
+                    if (ownerId != null) {
+                        val result = alertRepository.getAllAlertsByOwnerId(ownerId, token)
+                        if (result is Resource.Success) {
+                            _alertState.value = UIState(data = result.data ?: emptyList())
+                        } else if (result is Resource.Error) {
+                            _alertState.value = UIState(message = result.message ?: "Error al obtener las alertas")
+                        }
+                    } else {
+                        _alertState.value = UIState(message = "No se encontró el propietario")
+                    }
+                }
+                is Resource.Error -> {
+                    _alertState.value = UIState(message = ownerResult.message ?: "Error al obtener propietario")
+                }
+            }
+        }
+    }
+
+    fun goToNotificationListScreen() {
+        navController.navigate(Routes.NotificationList.route)
     }
 
     fun goToAddVisitorScreen() {
@@ -128,7 +164,7 @@ class HomeViewModel(
         }
     }
 
-    fun goToLoginScreen() {
+    private fun goToLoginScreen() {
         navController.navigate(Routes.Login.route)
     }
 

@@ -29,7 +29,7 @@ fun HomeScreen(
     val notificationCount by viewModel.notificationCount
     val visitorsState by viewModel.state
     val camerasState by viewModel.camerasState
-
+    val alertsState by viewModel.alertState
 
     // Load data when screen is first composed
     LaunchedEffect(Unit) {
@@ -37,6 +37,7 @@ fun HomeScreen(
         viewModel.loadNotificationCount()
         viewModel.getVisitors()
         viewModel.getCameras()
+        viewModel.getAlerts()
     }
 
     Column(
@@ -94,10 +95,9 @@ fun HomeScreen(
                         )
                     }
 
+
+
                     Spacer(modifier = Modifier.width(12.dp))
-
-
-
                     // Greeting text
                     Column {
                         Text(
@@ -124,7 +124,7 @@ fun HomeScreen(
                 ) {
                     // Notification button with counter
                     Box {
-                        IconButton(onClick = { /* Navigate to notifications */ }) {
+                        IconButton(onClick = { viewModel.goToNotificationListScreen() }) {
                             Icon(
                                 Icons.Default.Notifications,
                                 contentDescription = "Notifications",
@@ -166,6 +166,23 @@ fun HomeScreen(
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.width(24.dp))
+
+            // Alerts Section
+            AlertsSection(
+                alerts = alertsState.data ?: emptyList(),
+                isLoading = alertsState.isLoading,
+                onAlertClick = { alertId ->
+                    // TODO: Navigate to alert detail
+                },
+                onMarkAsResolvedClick = { alertId ->
+                    // TODO: Mark alert as resolved
+                },
+                onViewAllClick = {
+                    // TODO: Navigate to all alerts screen
+                }
+            )
 
             // TODO: Agregar más secciones aquí
             Spacer(modifier = Modifier.height(24.dp))

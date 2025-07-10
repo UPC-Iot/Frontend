@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.protectify.domain.profile.CreateProfile
 import com.example.protectify.presentation.addVisitor.AddVisitorScreen
 import com.example.protectify.presentation.addVisitor.AddVisitorViewModel
 import com.example.protectify.presentation.addVisitorImage.AddVisitorImageScreen
@@ -22,6 +21,8 @@ import com.example.protectify.presentation.createProfile.CreateProfileScreen
 import com.example.protectify.presentation.createProfile.CreateProfileViewModel
 import com.example.protectify.presentation.home.HomeScreen
 import com.example.protectify.presentation.home.HomeViewModel
+import com.example.protectify.presentation.notificationList.NotificationScreen
+import com.example.protectify.presentation.notificationList.NotificationViewModel
 import com.example.protectify.presentation.shared.SplashScreen
 import com.example.protectify.presentation.shared.StartInfoScreen
 import com.example.protectify.presentation.visitorsList.VisitorsListScreen
@@ -38,7 +39,8 @@ fun AppNavigation(
     loginViewModel: LoginViewModel,
     registerViewModel: RegisterViewModel,
     createProfileViewModel: CreateProfileViewModel,
-    createHouseViewModel: CreateHouseViewModel
+    createHouseViewModel: CreateHouseViewModel,
+    notificationViewModel: NotificationViewModel
 ) {
     NavHost(
         navController = navController,
@@ -68,6 +70,9 @@ fun AppNavigation(
         }
         composable(route = Routes.CreateProfile.route) {
             CreateProfileScreen(viewModel = createProfileViewModel)
+        }
+        composable(route = Routes.NotificationList.route) {
+            NotificationScreen(viewModel = notificationViewModel)
         }
         composable(route = Routes.StartInfo.route) {
             StartInfoScreen(padding,navController)

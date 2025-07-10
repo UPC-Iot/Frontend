@@ -2,6 +2,7 @@ package com.example.protectify.data.remote.alert
 
 import com.example.protectify.domain.alert.Alert
 import java.time.LocalDateTime
+import java.util.Date
 
 data class AlertDto(
     val id: Long? = null,
@@ -9,7 +10,7 @@ data class AlertDto(
     val type: String,
     val message: String,
     val status: String,
-    val timestamp: LocalDateTime,
+    val timestamp: Date,
     val imageUrl: String,
 )
 
