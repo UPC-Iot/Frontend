@@ -11,6 +11,8 @@ import com.example.protectify.presentation.addVisitor.AddVisitorScreen
 import com.example.protectify.presentation.addVisitor.AddVisitorViewModel
 import com.example.protectify.presentation.addVisitorImage.AddVisitorImageScreen
 import com.example.protectify.presentation.addVisitorImage.AddVisitorImageViewModel
+import com.example.protectify.presentation.alertList.AlertListScreen
+import com.example.protectify.presentation.alertList.AlertListViewModel
 import com.example.protectify.presentation.auth.login.LoginScreen
 import com.example.protectify.presentation.auth.login.LoginViewModel
 import com.example.protectify.presentation.auth.register.RegisterScreen
@@ -40,7 +42,8 @@ fun AppNavigation(
     registerViewModel: RegisterViewModel,
     createProfileViewModel: CreateProfileViewModel,
     createHouseViewModel: CreateHouseViewModel,
-    notificationViewModel: NotificationViewModel
+    notificationViewModel: NotificationViewModel,
+    alertListViewModel: AlertListViewModel
 ) {
     NavHost(
         navController = navController,
@@ -73,6 +76,9 @@ fun AppNavigation(
         }
         composable(route = Routes.NotificationList.route) {
             NotificationScreen(viewModel = notificationViewModel)
+        }
+        composable(route = Routes.AlertList.route) {
+            AlertListScreen(viewModel = alertListViewModel)
         }
         composable(route = Routes.StartInfo.route) {
             StartInfoScreen(padding,navController)

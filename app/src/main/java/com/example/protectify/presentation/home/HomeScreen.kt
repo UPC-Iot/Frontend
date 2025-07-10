@@ -180,7 +180,7 @@ fun HomeScreen(
                     // TODO: Mark alert as resolved
                 },
                 onViewAllClick = {
-                    // TODO: Navigate to all alerts screen
+                    viewModel.goToAlertListScreen()
                 }
             )
 

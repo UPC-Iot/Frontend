@@ -91,6 +91,10 @@ class HomeViewModel(
         }
     }
 
+    fun goToAlertListScreen() {
+        navController.navigate(Routes.AlertList.route)
+    }
+
     fun getAlerts() {
         _alertState.value = UIState(isLoading = true)
         viewModelScope.launch {

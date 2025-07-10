@@ -47,6 +47,7 @@ import com.example.protectify.presentation.visitorsList.VisitorsListViewModel
 import com.example.protectify.ui.theme.ProtectifyTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import com.example.protectify.presentation.alertList.AlertListViewModel
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -113,6 +114,11 @@ class MainActivity : ComponentActivity() {
                     navController,
                     notificationRepository
                 )
+                val alertListViewModel = AlertListViewModel(
+                    navController,
+                    ownerRepository,
+                    alertRepository
+                )
 
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
@@ -136,7 +142,8 @@ class MainActivity : ComponentActivity() {
                         registerViewModel = registerViewModel,
                         createProfileViewModel = createProfileViewModel,
                         createHouseViewModel = createHouseViewModel,
-                        notificationViewModel = notificationViewModel
+                        notificationViewModel = notificationViewModel,
+                        alertListViewModel = alertListViewModel
                     )
                 }
             }
