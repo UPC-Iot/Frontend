@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.threetenabp)
     implementation(libs.room.runtime)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.room.common.jvm)
     annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)

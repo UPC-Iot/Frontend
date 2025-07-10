@@ -157,7 +157,7 @@ fun HomeScreen(
                     }
 
                     // Botón de cerrar sesión
-                    IconButton(onClick = {/* Limpia el token y navega al login*/}) {
+                    IconButton(onClick = {viewModel.signOut()}) {
                         Icon(
                             Icons.Default.ExitToApp, // Icono de logout
                             contentDescription = "Cerrar sesión",

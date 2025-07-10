@@ -9,7 +9,8 @@ sealed class Routes(val route: String) {
     data object VisitorsList: Routes("visitor-list")
     data object AddVisitorImage: Routes("add-visitor-image")
     data object Home: Routes("home")
-
+    data object CreateProfile: Routes("create-profile")
+    data object CreateHouse: Routes("create-house")
 }
 
 

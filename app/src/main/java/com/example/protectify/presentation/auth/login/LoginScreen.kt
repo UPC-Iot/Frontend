@@ -2,18 +2,7 @@ package com.example.protectify.presentation.auth.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -22,20 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,29 +20,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.protectify.common.Routes
+
 
 @Composable
-fun LoginScreen(padding: PaddingValues, navController: NavController) {
-
-
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+fun LoginScreen(
+    viewModel: LoginViewModel,
+    modifier: Modifier = Modifier
+) {
+    val email by viewModel.email
+    val password by viewModel.password
+    val isPasswordVisible by viewModel.isPasswordVisible
+    val state by viewModel.state
 
     val grayText = Color(0xFF8E8E93)
-
     val darkBackground = Color(0xFF26272C)
     val orangeButton = Color(0xFFBF4D36)
+
+    LaunchedEffect(Unit) {
+        viewModel.checkUser()
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(darkBackground)
-            .padding(padding)
+            .padding(bottom = 16.dp)
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.Start
     ) {
@@ -78,19 +61,19 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             IconButton(
-                onClick = { navController.popBackStack()},
+                onClick = { /*Por implementar*/ },
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .size(40.dp)
                     .clip(CircleShape)
                     .background(Color.Black)
-            ){
+            ) {
                 Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = "Volver",
-                tint = Color.White
-            )}
-
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Volver",
+                    tint = Color.White
+                )
+            }
         }
         Text(
             text = "Iniciar Sesión",
@@ -101,7 +84,7 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // Form Fields
+        // Campos del formulario
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(24.dp)
@@ -129,7 +112,7 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
 
                     BasicTextField(
                         value = email,
-                        onValueChange = { email = it },
+                        onValueChange = { viewModel.setEmail(it) },
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.White,
                             fontSize = 16.sp
@@ -143,7 +126,6 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
                             innerTextField()
                         }
                     )
-
                 }
 
                 Divider(
@@ -153,7 +135,7 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
                 )
             }
 
-            // Password
+            // Contraseña
             Column {
                 Text(
                     text = "Contraseña",
@@ -177,13 +159,13 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
 
                     BasicTextField(
                         value = password,
-                        onValueChange = { password = it },
+                        onValueChange = { viewModel.setPassword(it) },
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.White,
                             fontSize = 16.sp
                         ),
-                        modifier = Modifier.fillMaxWidth(),
-                        visualTransformation = PasswordVisualTransformation(),
+                        modifier = Modifier.weight(1f),
+                        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         decorationBox = { innerTextField ->
                             Box {
@@ -194,6 +176,16 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
                             }
                         }
                     )
+
+                    IconButton(
+                        onClick = { viewModel.togglePasswordVisibility() }
+                    ) {
+                        Icon(
+                            imageVector = if (isPasswordVisible) Icons.Filled.Lock else Icons.Default.Lock,
+                            contentDescription = if (isPasswordVisible) "Ocultar contraseña" else "Mostrar contraseña",
+                            tint = grayText
+                        )
+                    }
                 }
 
                 Divider(
@@ -202,28 +194,36 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
-
-
         }
 
         Spacer(modifier = Modifier.height(48.dp))
 
         Button(
-            onClick = { /* Save profile logic */ },
+            onClick = { viewModel.signIn() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
             shape = RoundedCornerShape(18.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = orangeButton)
+            colors = ButtonDefaults.buttonColors(containerColor = orangeButton),
+            enabled = !state.isLoading
         ) {
             Text(
-                text = "Sign In",
+                text = if (state.isLoading) "Cargando..." else "Iniciar Sesión",
                 color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
         }
+
+        if (state.message.isNotEmpty()) {
+            Text(
+                text = state.message,
+                color = Color.Red,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+
         Spacer(modifier = Modifier.height(12.dp))
 
         Row(
@@ -238,10 +238,9 @@ fun LoginScreen(padding: PaddingValues, navController: NavController) {
                 text = "Regístrate",
                 color = Color(0xFF0859d5),
                 modifier = Modifier.clickable {
-                    navController.navigate(Routes.Register.route)
+                    viewModel.goToSignUpScreen()
                 }
             )
         }
-
     }
 }

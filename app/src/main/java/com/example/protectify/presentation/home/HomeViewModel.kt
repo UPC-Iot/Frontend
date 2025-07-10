@@ -8,12 +8,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.protectify.common.GlobalVariables
 import com.example.protectify.common.Resource
+import com.example.protectify.common.Routes
 import com.example.protectify.common.UIState
+import com.example.protectify.data.repository.authentication.AuthenticationRepository
 import com.example.protectify.data.repository.device.DeviceRepository
 import com.example.protectify.data.repository.notification.NotificationRepository
 import com.example.protectify.data.repository.owner.OwnerRepository
 import com.example.protectify.data.repository.profile.ProfileRepository
 import com.example.protectify.data.repository.visitor.VisitorRepository
+import com.example.protectify.domain.authentication.AuthenticationResponse
 import com.example.protectify.domain.device.Device
 import com.example.protectify.domain.profile.Profile
 import com.example.protectify.domain.visitor.Visitor
@@ -25,7 +28,8 @@ class HomeViewModel(
     private val profileRepository: ProfileRepository,
     private val visitorRepository: VisitorRepository,
     private val notificationRepository: NotificationRepository,
-    private val deviceRepository: DeviceRepository
+    private val deviceRepository: DeviceRepository,
+    private val authenticationRepository: AuthenticationRepository
 ): ViewModel() {
 
     private val _state = mutableStateOf(UIState<List<Visitor>>())
@@ -109,6 +113,23 @@ class HomeViewModel(
                 }
             }
         }
+    }
+
+    fun signOut() {
+        GlobalVariables.ROLES = emptyList()
+        viewModelScope.launch {
+            val authResponse = AuthenticationResponse(
+                id = GlobalVariables.USER_ID,
+                username = "",
+                token = GlobalVariables.TOKEN
+            )
+            authenticationRepository.deleteUser(authResponse)
+            goToLoginScreen()
+        }
+    }
+
+    fun goToLoginScreen() {
+        navController.navigate(Routes.Login.route)
     }
 
 
