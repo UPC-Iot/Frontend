@@ -48,6 +48,7 @@ import com.example.protectify.ui.theme.ProtectifyTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.example.protectify.presentation.alertList.AlertListViewModel
+import com.example.protectify.presentation.camerasList.CamerasListViewModel
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -119,6 +120,11 @@ class MainActivity : ComponentActivity() {
                     ownerRepository,
                     alertRepository
                 )
+                val camerasListViewModel = CamerasListViewModel(
+                    navController,
+                    ownerRepository,
+                    deviceRepository
+                )
 
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
@@ -126,7 +132,9 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     containerColor = Color(0xFF26272C),
                     bottomBar = {
-                        if (currentRoute == Routes.Home.route || currentRoute == Routes.VisitorsList.route) {
+                        if (currentRoute == Routes.Home.route ||
+                            currentRoute == Routes.VisitorsList.route ||
+                            currentRoute == Routes.CamerasList.route) {
                             BottomNavigationBar(navController = navController)
                         }
                     }
@@ -143,7 +151,8 @@ class MainActivity : ComponentActivity() {
                         createProfileViewModel = createProfileViewModel,
                         createHouseViewModel = createHouseViewModel,
                         notificationViewModel = notificationViewModel,
-                        alertListViewModel = alertListViewModel
+                        alertListViewModel = alertListViewModel,
+                        camerasListViewModel = camerasListViewModel
                     )
                 }
             }

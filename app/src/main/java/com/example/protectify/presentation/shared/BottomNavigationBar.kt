@@ -42,7 +42,7 @@ fun BottomNavigationBar(
         BottomNavItem(
             title = "Camaras",
             icon = Icons.Default.Face,
-            route = Routes.Home.route
+            route = Routes.CamerasList.route
         ),
         BottomNavItem(
             title = "Rostros",
